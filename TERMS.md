@@ -6,7 +6,7 @@ Momentum Reminders is a low-volume automated SMS reminder service operated by a 
 
 ## The Program
 
-Subscribers enroll through the Program's opt-in page (https://rey3287.github.io/momentum-sms-policy/) or by texting the keyword **START** to +1 (561) 408-4073. Messages are sent only to phone numbers that have completed the opt-in process.
+Subscribers enroll through the Program's opt-in page (https://rey3287.github.io/momentum-sms-policy/) or by texting the keyword **START** to +1 (561) 408-4073. Messages are sent only to phone numbers that have completed the opt-in process. Text reminders are an optional feature — SMS consent may be declined and the service used without it; declining costs you nothing.
 
 ## Messages We Send
 

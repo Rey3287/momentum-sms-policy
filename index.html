@@ -30,6 +30,7 @@
       margin: 6px 0 6px;
     }
     .lede { color: var(--muted); margin: 0 0 8px; font-size: 1.02rem; }
+    .lede strong { color: var(--ink); }
     .card {
       background: #ffffff;
       border: 1px solid var(--line);
@@ -40,6 +41,18 @@
     .card h2 { margin: 0 0 6px; font-size: 1.2rem; }
     .card p.help { margin: 0 0 6px; color: var(--muted); font-size: .95rem; }
     label.field { display: block; font-weight: 600; margin: 16px 0 6px; }
+    .opt {
+      display: inline-block;
+      font-weight: 600;
+      font-size: .78rem;
+      color: #4a5a86;
+      background: #eef2fb;
+      border: 1px solid #dbe3f7;
+      border-radius: 999px;
+      padding: 1px 9px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
     input[type="tel"] {
       width: 100%;
       padding: 12px 14px;
@@ -72,6 +85,19 @@
       font-size: 1.05rem;
       font-weight: 700;
       cursor: pointer;
+    }
+    button.secondary {
+      margin-top: 10px;
+      background: #ffffff;
+      color: var(--brand);
+      border: 2px solid var(--brand);
+      font-weight: 600;
+    }
+    .no-condition {
+      margin: 12px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .88rem;
     }
     .alt {
       margin: 16px 0 0;
@@ -106,7 +132,6 @@
     footer a { color: var(--brand); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
     #confirm {
-      display: none;
       margin-top: 14px;
       padding: 12px 14px;
       background: #e7f7ec;
@@ -114,6 +139,21 @@
       border-radius: 8px;
       color: #1c6b3a;
       font-size: .95rem;
+    }
+    #err {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #fdeeee;
+      border: 1px solid #f0c4c4;
+      border-radius: 8px;
+      color: #8a2a2a;
+      font-size: .95rem;
+    }
+    noscript p {
+      margin-top: 12px;
+      font-size: .9rem;
+      color: var(--muted);
+      text-align: center;
     }
   </style>
 </head>
@@ -125,26 +165,46 @@
         Momentum Reminders is a low-volume automated reminder service operated by a
         sole proprietorship. Subscribers who opt in receive scheduled text reminders for their
         appointments and tasks, plus end-of-day check-in summaries.
+        <strong>Text reminders are an optional feature — consent is not required to use the service.</strong>
       </p>
     </header>
 
-    <section class="card" aria-label="Sign up for Momentum Reminders">
-      <h2>Sign up for reminders</h2>
-      <p class="help">Enter your mobile number and confirm your consent below to opt in to reminder messages.</p>
+    <section class="card" aria-label="Text reminders — optional sign-up">
+      <h2>Text reminders <span class="opt">optional</span></h2>
+      <p class="help">
+        Want your reminders by text? Enter your number and check the optional consent box below.
+        Don't want texts? Choose "No thanks" — declining doesn't affect your use of the service.
+      </p>
 
-      <form onsubmit="event.preventDefault(); document.getElementById('confirm').style.display='block';">
-        <label class="field" for="phone">Mobile phone number</label>
-        <input id="phone" name="phone" type="tel" inputmode="tel"
-               placeholder="+1 (561) 555-0123" autocomplete="tel" required>
+      <form id="optform" method="get" action="./">
+        <label class="field" for="phone">Mobile phone number <span class="opt">only needed for text reminders</span></label>
+        <input id="phone" type="tel" inputmode="tel"
+               placeholder="+1 (561) 555-0123" autocomplete="tel"
+               aria-describedby="phonehelp" aria-required="false">
+        <p id="phonehelp" class="help" style="margin-top:6px;">Optional — leave this blank if you don't want text messages.</p>
 
         <label class="consent" for="consent">
-          <input id="consent" name="consent" type="checkbox" required>
-          <span>I agree to receive automated reminder text messages from Momentum Reminders at the phone number provided. Consent is not a condition of any purchase. Message frequency varies (up to ~10 messages per day). Message and data rates may apply. Reply STOP to cancel, HELP for help.</span>
+          <input id="consent" type="checkbox" value="yes">
+          <span><strong>Optional —</strong> text me my reminders. I agree to receive automated appointment and
+          task reminder text messages from Momentum Reminders at the number above. Consent is not required to
+          use Momentum Reminders and is not a condition of any purchase. Message frequency varies (up to ~10
+          messages per day). Message and data rates may apply. Reply STOP to cancel, HELP for help.</span>
         </label>
 
-        <button type="submit">Sign up</button>
-        <div id="confirm">Thanks — your opt-in request has been received. Reply STOP at any time to cancel, or HELP for help.</div>
+        <div id="err" role="alert" hidden></div>
+
+        <button type="submit" value="sms" id="btn-sms">Turn on text reminders</button>
+        <button type="submit" value="skip" id="btn-skip" class="secondary">No thanks — I don't want text reminders</button>
+
+        <p class="no-condition">Declining text reminders does not affect your use of Momentum Reminders.</p>
+
+        <div id="confirm" role="status" hidden></div>
       </form>
+
+      <noscript>
+        <p>JavaScript is off — no problem. Nothing on this page is required: to opt in to text reminders,
+        text START to +1 (561) 408-4073. Consent is not required to use the service.</p>
+      </noscript>
 
       <p class="alt">Or text <span class="sender">START</span> to <span class="sender">+1 (561) 408-4073</span> to opt in.</p>
     </section>
@@ -153,6 +213,7 @@
       <strong class="title">Program &amp; messaging disclosures</strong>
       <ul>
         <li><strong>Program:</strong> Momentum Reminders — automated schedule reminders (appointment reminders, task reminders, and end-of-day check-in summaries).</li>
+        <li><strong>Text reminders are optional:</strong> consent is not a condition of using the service or of any purchase.</li>
         <li><strong>Message frequency:</strong> Message frequency varies, up to ~10 per day.</li>
         <li>Message and data rates may apply.</li>
         <li>Reply STOP to cancel, HELP for help. Text START to +1 (561) 408-4073 to opt in or resubscribe.</li>
@@ -170,5 +231,57 @@
       <a href="https://rey3287.github.io/momentum-sms-policy/TERMS.html">Terms &amp; Conditions</a>
     </footer>
   </div>
+
+  <script>
+    (function () {
+      var form = document.getElementById("optform");
+      var phone = document.getElementById("phone");
+      var consent = document.getElementById("consent");
+      var confirmBox = document.getElementById("confirm");
+      var errBox = document.getElementById("err");
+      var lastChoice = "sms"; // fallback for browsers without event.submitter
+
+      document.getElementById("btn-sms").addEventListener("click", function () { lastChoice = "sms"; });
+      document.getElementById("btn-skip").addEventListener("click", function () { lastChoice = "skip"; });
+
+      consent.addEventListener("change", function () {
+        phone.setAttribute("aria-required", consent.checked ? "true" : "false");
+        errBox.hidden = true;
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var choice = (e.submitter && e.submitter.value) || lastChoice;
+        errBox.hidden = true;
+        confirmBox.hidden = true;
+
+        if (choice === "skip") {
+          confirmBox.textContent = "No problem — nothing was collected and no text messages will be sent. " +
+            "You can use Momentum Reminders without texts, and you can come back to this page anytime to turn " +
+            "them on (or text START to +1 (561) 408-4073).";
+          confirmBox.hidden = false;
+          confirmBox.focus && confirmBox.focus();
+          return;
+        }
+
+        if (!consent.checked) {
+          errBox.textContent = "The optional consent box is unchecked. Check it to turn on text reminders — " +
+            "or choose \"No thanks\" to continue without them.";
+          errBox.hidden = false;
+          return;
+        }
+        if (!phone.value.trim()) {
+          errBox.textContent = "Enter a mobile number to receive your text reminders.";
+          errBox.hidden = false;
+          phone.focus();
+          return;
+        }
+
+        confirmBox.textContent = "Thanks — your opt-in request has been received. Reply STOP at any time to cancel, " +
+          "or HELP for help.";
+        confirmBox.hidden = false;
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -6,7 +6,7 @@ Momentum Reminders ("the Program," "we," "us," or "our") is a low-volume automat
 
 ## Information We Collect
 
-- **Mobile phone number** — the number a subscriber enrolls to receive reminder messages.
+- **Mobile phone number** — the number a subscriber enrolls to receive reminder messages. Providing a phone number is optional; it is collected only from users who choose to receive text messages.
 - **Opt-in / consent status** — a record of whether consent to receive messages was given, and whether it has since been withdrawn.
 - **Message delivery logs** — records of messages sent and their delivery status (for example: sent, delivered, or failed), used for reliability and support.
 
